@@ -1,19 +1,32 @@
 <?php
 /**
  * Standalone dependency tracker for Zend Framework.
+ * @author Gerard van Helden
  */
 
 error_reporting(E_ALL);
 
-class FileUsageIterator extends ArrayIterator {
-    function __construct($file) {
-        if(!is_readable($file)) {
-            throw new InvalidArgumentException("Can not read file $file");
-        }
+
+
+interface AnalyzerInterface {
+    function getDependencies($file);
+}
+
+
+class RequireOnceAnalyzer implements AnalyzerInterface {
+    protected $_file = null;
+
+    function __construct() {
+    }
+    
+    
+    function getDependencies($file) {
         preg_match_all('~require_once\s+([\'"])(.*)(\1)~', file_get_contents($file), $m);
-        parent::__construct(array_unique($m[2]));
+        return array_unique($m[2]);
     }
 }
+
+
 
 
 class FileDependencyFinder extends IteratorIterator {
@@ -21,11 +34,18 @@ class FileDependencyFinder extends IteratorIterator {
     private $_ptr = 0;
     private $_files = null;
     private $_usage = null;
+    
+    
+    function __construct(Iterator $files, AnalyzerInterface $analyzer) {
+        parent::__construct($files);
+        $this->_analyzer = $analyzer;
+    }
+    
 
     function rewind() {
         parent::rewind();
         $this->_current = false;
-        $this->_usage = new FileUsageIterator(parent::current());
+        $this->_usage = new ArrayIterator($this->_analyzer->getDependencies(parent::current()));
         $this->next();
     }
     
@@ -39,7 +59,7 @@ class FileDependencyFinder extends IteratorIterator {
             $this->_current = $this->_usage->current();
             $this->_usage->next();
         } elseif(parent::valid()) {
-            $this->_usage = new FileUsageIterator(parent::current());
+            $this->_usage = new ArrayIterator($this->_analyzer->getDependencies(parent::current()));
             $this->_current = $this->_usage->current();
             $this->_usage->next();
             parent::next();
@@ -90,6 +110,9 @@ class FlattenPackagesIterator extends FilterIterator {
 
 class Zend_DependencyTracker 
 {
+    private $_analyzer = null;
+    
+    
 	function __construct($libPath = '.', $depth = 2, $ignoreList = array()) 
 	{
 	    $this->_libPath = rtrim($libPath, '/');
@@ -98,11 +121,25 @@ class Zend_DependencyTracker
 	}
 	
 	
+	function getAnalyzer() {
+	    if(null === $this->_analyzer) {
+	        $this->_analyzer = new RequireOnceAnalyzer();
+	    } 
+	    return $this->_analyzer;
+	}
+	
+	
+	function setAnalyzer(AnalyzerInterface $analyzer) {
+        $this->_analyzer = $analyzer;
+	}
+	
+	
 	function findDependencies($packageName, $deep = false) 
 	{
 	    return new FlattenPackagesIterator(
 	        new FileDependencyFinder(
-	            $this->getPackageFiles($this->getPackagePath($packageName))
+	            $this->getPackageFiles($this->getPackagePath($packageName)),
+	            $this->getAnalyzer()
             ), $this->_ignoreList, $this->_depth);
 	}
 	
