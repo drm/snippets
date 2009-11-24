@@ -113,62 +113,62 @@ class Zend_DependencyTracker
     private $_analyzer = null;
     
     
-	function __construct($libPath = '.', $depth = 2, $ignoreList = array()) 
-	{
-	    $this->_libPath = rtrim($libPath, '/');
-	    $this->_depth = 2;
-	    $this->_ignoreList = $ignoreList;
-	}
-	
-	
-	function getAnalyzer() {
-	    if(null === $this->_analyzer) {
-	        $this->_analyzer = new RequireOnceAnalyzer();
-	    } 
-	    return $this->_analyzer;
-	}
-	
-	
-	function setAnalyzer(AnalyzerInterface $analyzer) {
+    function __construct($libPath = '.', $depth = 2, $ignoreList = array()) 
+    {
+        $this->_libPath = rtrim($libPath, '/');
+        $this->_depth = 2;
+        $this->_ignoreList = $ignoreList;
+    }
+    
+    
+    function getAnalyzer() {
+        if(null === $this->_analyzer) {
+            $this->_analyzer = new RequireOnceAnalyzer();
+        } 
+        return $this->_analyzer;
+    }
+    
+    
+    function setAnalyzer(AnalyzerInterface $analyzer) {
         $this->_analyzer = $analyzer;
-	}
-	
-	
-	function findDependencies($packageName, $deep = false) 
-	{
-	    return new FlattenPackagesIterator(
-	        new FileDependencyFinder(
-	            $this->getPackageFiles($this->getPackagePath($packageName)),
-	            $this->getAnalyzer()
+    }
+    
+    
+    function findDependencies($packageName, $deep = false) 
+    {
+        return new FlattenPackagesIterator(
+            new FileDependencyFinder(
+                $this->getPackageFiles($this->getPackagePath($packageName)),
+                $this->getAnalyzer()
             ), $this->_ignoreList, $this->_depth);
-	}
-	
-	
-	
+    }
+    
+    
+    
     function getPackageFiles($packagePath) 
-	{
-	    $files = new AppendIterator();
+    {
+        $files = new AppendIterator();
         if(is_file($packagePath . ".php")) {
-	        $files->append(new ArrayIterator(array("$packagePath.php")));
-	    }
-	    if(is_dir($packagePath)) {
-	        $files->append(
-	            new RegexIterator(
-	                new RecursiveIteratorIterator(
-	                    new RecursiveDirectoryIterator($packagePath),
-	                    RecursiveIteratorIterator::LEAVES_ONLY
+            $files->append(new ArrayIterator(array("$packagePath.php")));
+        }
+        if(is_dir($packagePath)) {
+            $files->append(
+                new RegexIterator(
+                    new RecursiveIteratorIterator(
+                        new RecursiveDirectoryIterator($packagePath),
+                        RecursiveIteratorIterator::LEAVES_ONLY
                     ),
                     '/\.php$/'
                 )
             );
         }
         return $files;
-	}
-	
-	
-	function getPackagePath($packageName) {
-	    return $this->_libPath . '/' . str_replace('_', '/', $packageName);
-	}
+    }
+    
+    
+    function getPackagePath($packageName) {
+        return $this->_libPath . '/' . str_replace('_', '/', $packageName);
+    }
 }
 
 $tracker = new Zend_DependencyTracker();
