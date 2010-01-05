@@ -7,7 +7,7 @@ JDK_HOME=/usr
 # if version is not set, get the latest
 if [ "$VERSION" == "" ]; then
 	VERSION=`basename $(			\
-		find /opt/webide 		\
+		find $PREFIX	 		\
 			-maxdepth 1 		\
 			-type d 		\
 			-name "WebIDE*" 	\
