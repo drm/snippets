@@ -18,13 +18,19 @@ fi
 
 
 WEBIDE_BIN="$PREFIX/$VERSION/bin/webide.sh"
+SCRIPT=`basename $WEBIDE_BIN`;
 
 if ! [ -f "$WEBIDE_BIN" ]; then
 	echo "$WEBIDE_BIN does not exist!" >&2;
 	exit 1;
 fi
+if ! [ -x "$WEBIDE_BIN" ]; then
+	echo "$WEBIDE_BIN is not executable!" >&2
+	exit 2;
+fi
 
 cd `dirname $WEBIDE_BIN`
-. $WEBIDE_BIN
+export JDK_HOME
+exec ./$SCRIPT
 
 
