@@ -1,0 +1,30 @@
+#!/bin/bash
+
+PREFIX=/opt/webide
+JDK_HOME=/usr
+
+
+# if version is not set, get the latest
+if [ "$VERSION" == "" ]; then
+	VERSION=`basename $(			\
+		find /opt/webide 		\
+			-maxdepth 1 		\
+			-type d 		\
+			-name "WebIDE*" 	\
+		| sort -n 			\
+		| tail -1 			\
+	)`;
+fi
+
+
+WEBIDE_BIN="$PREFIX/$VERSION/bin/webide.sh"
+
+if ! [ -f "$WEBIDE_BIN" ]; then
+	echo "$WEBIDE_BIN does not exist!" >&2;
+	exit 1;
+fi
+
+cd `dirname $WEBIDE_BIN`
+. $WEBIDE_BIN
+
+
