@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * This code is provided as an example and therefore not considered stable. Use at your own risk.
+ * Feel free to copy, modify and redistribute.
+ *
+ * @author Gerard van Helden <drm@melp.nl>
+ */
 /**
  * Dynamically build an SQL SELECT query
  * @return ISqlSelectQuery for fluent interfaces.

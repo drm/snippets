@@ -1,4 +1,15 @@
 <?php
+/**
+ * This code is provided as an example and therefore not considered stable. Use at your own risk.
+ * Feel free to copy, modify and redistribute.
+ *
+ * @author Gerard van Helden <drm@melp.nl>
+ */
+
+/**
+ * IFilter implementation for using predefined options.
+ */
+
 require_once 'IFilter.php';
 
 abstract class OptionFilter implements IFilter {

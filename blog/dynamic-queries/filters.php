@@ -1,4 +1,11 @@
 <?php
+/**
+ * This code is provided as an example and therefore not considered stable. Use at your own risk.
+ * Feel free to copy, modify and redistribute.
+ *
+ * @author Gerard van Helden <drm@melp.nl>
+ */
+
 require_once 'lib/SqlFilter.php';
 require_once 'lib/OptionFilter.php';
 
@@ -23,6 +30,7 @@ abstract class GenericSqlFilter extends SqlFilter {
             ->addSelect($this->_labelField . ' label')
         ;
     }
+    
 
     final function setResults(SqlSelectQuery $q, $results) {
         $ret = false;
@@ -36,14 +44,26 @@ abstract class GenericSqlFilter extends SqlFilter {
     }
 
 
+    /**
+     * Should return the SELECT or comma-separated values for the remaining available filters,
+     * based on the given array of car ids.
+     *
+     * @abstract
+     * @param  $ids
+     * @return void
+     */
     abstract function getResultsInQuery($ids);
 }
 
 
+/**
+ * Filter implementation for types of the cars
+ */
 class TypeFilter extends GenericSqlFilter {
     function __construct(Pdo $db) {
         parent::__construct($db, 'type_id', 'type');
     }
+    
 
     function _initSelectQuery() {
         return parent::_initSelectQuery()
@@ -60,7 +80,7 @@ class TypeFilter extends GenericSqlFilter {
     }
 
 
-    function isStackable() {
+    function isMultiple() {
         return false;
     }
 
@@ -70,13 +90,15 @@ class TypeFilter extends GenericSqlFilter {
     }
 }
 
-
+/**
+ * Filter implementation for brands of the cars
+ */
 class BrandFilter extends GenericSqlFilter {
     function __construct(Pdo $db) {
         parent::__construct($db, 'brand_id', 'brand');
     }
 
-    function isStackable() {
+    function isMultiple() {
         return false;
     }
 
@@ -93,13 +115,15 @@ class BrandFilter extends GenericSqlFilter {
     }
 }
 
-
+/**
+ * Filter implementation for accessories of the cars
+ */
 class AccessoryFilter extends GenericSqlFilter {
     function __construct(Pdo $db) {
         parent::__construct($db, 'accessory_id', 'accessory');
     }
 
-    function isStackable() {
+    function isMultiple() {
         return true;
     }
 
@@ -115,9 +139,9 @@ class AccessoryFilter extends GenericSqlFilter {
     }
 }
 
-
-
-
+/**
+ * Filter implementation for engine's fuel type of the cars
+ */
 class FuelFilter extends OptionFilter {
     function __construct() {
         parent::__construct(array(
@@ -127,7 +151,7 @@ class FuelFilter extends OptionFilter {
     }
 
 
-    function isStackable() {
+    function isMultiple() {
         return false;
     }
 

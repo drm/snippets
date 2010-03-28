@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * This code is provided as an example and therefore not considered stable. Use at your own risk.
+ * Feel free to copy, modify and redistribute.
+ *
+ * @author Gerard van Helden <drm@melp.nl>
+ */
 /**
  * Base interface for the drill down filters
  */
@@ -7,7 +12,7 @@ interface IFilter {
     /**
      * @return bool
      */
-    function isStackable();
+    function isMultiple();
 
     /**
      * @param SqlSelectQuery $q     The query the filter is applied to

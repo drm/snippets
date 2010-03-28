@@ -1,4 +1,11 @@
 <?php
+/**
+ * This code is provided as an example and therefore not considered stable. Use at your own risk.
+ * Feel free to copy, modify and redistribute.
+ *
+ * @author Gerard van Helden <drm@melp.nl>
+ */
+
 require_once 'filters.php';
 require_once 'lib/FilterRequest.php';
 require_once 'CarSelectQuery.php';

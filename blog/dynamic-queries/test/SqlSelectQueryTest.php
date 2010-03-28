@@ -1,4 +1,10 @@
 <?php
+/**
+ * This code is provided as an example and therefore not considered stable. Use at your own risk.
+ * Feel free to copy, modify and redistribute.
+ *
+ * @author Gerard van Helden <drm@melp.nl>
+ */
 
 /**
  * Straight-forward unit test for SqlSelectQuery class
