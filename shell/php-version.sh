@@ -1,21 +1,52 @@
 #!/bin/bash
 
+function check_prefix {
+	prefix=$1
+	if [ ! -d $prefix ]; then
+		echo $prefix does not exist >&2
+		exit -1
+	fi
+}
+
+
+function disable {
+	prefix="/usr/local/php/$1"
+	check_prefix $prefix
+	for i in $prefix/bin/*; do
+		if [ -h "/usr/local/bin/`basename $i`" ]; then
+			( cd /usr/local/bin && rm -f `basename $i` )
+		fi
+	done
+	if [ -e /etc/apache2/mods-available/php-$1.load ]; then
+		a2dismod php-$1
+	fi
+}
+
+
+function enable {
+	prefix="/usr/local/php/$1"
+	check_prefix $prefix
+	for i in $prefix/bin/*; do
+		if [ ! -h $i ]; then
+			( cd /usr/local/bin/ \
+				&& ln -s $i );
+		fi
+	done
+	if [ -e /etc/apache2/mods-available/php-$1.load ]; then
+		a2enmod php-$1
+	fi
+}
+
 if [ "" == "$1" ]; then
-	echo "No version specified" >2
+	echo "No version specified" >&2
 	exit -1
 fi;
 
-PHP_VERSION_DIR="/usr/local/php/$1"
-if [ ! -d $PHP_VERSION_DIR ]; then
-	echo "$PHP_VERSION_DIR does not exist"
-	exit -2
+if [ -f /var/run/php-version.current ]; then
+	current=`cat /var/run/php-version.current`
+	disable $current
 fi
+enable $1
+echo $1 > /var/run/php-version.current
 
-for i in ls $PHP_VERSION_DIR/bin/*; do
-	( cd /usr/local/bin && rm -f `basename $i`; ln -s $i )
-done
-rm -f /usr/local/apache2/modules/libphp5.so
-ln -s $PHP_VERSION_DIR/lib/apache/libphp5.so \
-	/usr/local/apache2/modules/libphp5.so
-/usr/local/apache2/bin/apachectl restart
-
+/etc/init.d/apache2 restart
