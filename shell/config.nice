@@ -1,0 +1,14 @@
+#! /bin/sh
+#
+# Created by configure
+
+'./configure' \
+'--prefix=/usr/local/php/5.3.1' \
+'--with-mysql' \
+'--with-mysqli' \
+'--with-pdo-mysql' \
+'--with-config-file-path=/usr/local/etc/php' \
+'--with-config-file-scan-dir=/usr/local/etc/php/ini.d/' \
+'--with-apxs2=/usr/bin/apxs2' \
+'--without-pear' \
+"$@"

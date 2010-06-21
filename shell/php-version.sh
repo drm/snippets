@@ -1,5 +1,18 @@
 #!/bin/bash
 
+# @author Gerard van Helden <drm@melp.nl>
+
+# Utility script to switch php versions installed in
+# /usr/local/php/$versionNumber/
+
+# Available binaries are symlinked in /usr/local/bin/
+
+# This script assumes the debian layout for apache configuration using
+# the a2enmod and a2dismod scripts
+
+# The ./configure is supplied next to this file in the repository
+
+
 function check_prefix {
 	prefix=$1
 	if [ ! -d $prefix ]; then
