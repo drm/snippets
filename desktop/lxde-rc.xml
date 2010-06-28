@@ -30,14 +30,14 @@
     <center>yes</center>
     <!-- whether to place windows in the center of the free area found or
        the top left corner -->
-    <monitor>Any</monitor>
+    <monitor>Active</monitor>
     <!-- with Smart placement on a multi-monitor system, try to place new windows
        on: 'Any' - any monitor, 'Mouse' - where the mouse is, 'Active' - where
        the active window is -->
   </placement>
   <theme>
     <name>Clearlooks</name>
-    <titleLayout>NDLIMC</titleLayout>
+    <titleLayout>NLIMC</titleLayout>
     <!--
       available characters are NDSLIMC, each can occur at most once.
       N: window icon
@@ -54,7 +54,7 @@
       <name>Sans</name>
       <size>9</size>
       <!-- font size in points -->
-      <weight>Bold</weight>
+      <weight>Normal</weight>
       <!-- 'bold' or 'normal' -->
       <slant>Normal</slant>
       <!-- 'italic' or 'normal' -->
@@ -63,7 +63,7 @@
       <name>Sans</name>
       <size>9</size>
       <!-- font size in points -->
-      <weight>Bold</weight>
+      <weight>Normal</weight>
       <!-- 'bold' or 'normal' -->
       <slant>Normal</slant>
       <!-- 'italic' or 'normal' -->
@@ -87,12 +87,12 @@
       <!-- 'italic' or 'normal' -->
     </font>
     <font place="OnScreenDisplay">
-      <name>Sans</name>
-      <size>9</size>
+      <name>sans</name>
+      <size>10</size>
       <!-- font size in points -->
-      <weight>Bold</weight>
+      <weight>bold</weight>
       <!-- 'bold' or 'normal' -->
-      <slant>Normal</slant>
+      <slant>normal</slant>
       <!-- 'italic' or 'normal' -->
     </font>
   </theme>
@@ -105,7 +105,7 @@
 
        use obconf if you want to change these without having to log out
        and back in -->
-    <number>2</number>
+    <number>3</number>
     <firstdesk>1</firstdesk>
     <names>
       <!-- set names up here if you want to, like this:
@@ -164,14 +164,73 @@
   <keyboard>
     <chainQuitKey>C-g</chainQuitKey>
     <!-- Keybindings for desktop switching -->
-    <keybind key="W-Left">
-      <action name="DesktopLeft">
+    <keybind key="W-Return">
+      <action name="ToggleMaximizeFull"/>
+    </keybind>
+    <keybind key="W-A-Return">
+      <action name="ToggleMaximizeVert"/>
+    </keybind>
+    
+    <!-- NUMPAD Placing -->
+    <keybind key="W-KP_7"><action name="MoveResizeTo"><x>0</x><y>0</y>      </action></keybind>
+    <keybind key="W-KP_8"><action name="MoveResizeTo"><y>0</y>              </action></keybind>
+    <keybind key="W-KP_9"><action name="MoveResizeTo"><y>0</y><x>-0</x>     </action></keybind>
+
+    <keybind key="W-KP_4"><action name="MoveResizeTo"><x>0</x>              </action></keybind>
+    <keybind key="W-KP_6"><action name="MoveResizeTo"><x>-0</x>             </action></keybind>
+    
+    <keybind key="W-KP_1"><action name="MoveResizeTo"><x>0</x><y>-0</y>     </action></keybind>
+    <keybind key="W-KP_2"><action name="MoveResizeTo"><y>-0</y>             </action></keybind>
+    <keybind key="W-KP_3"><action name="MoveResizeTo"><x>-0</x><y>-0</y>    </action></keybind>
+
+
+    <keybind key="W-S-KP_8"><action name="MoveResizeTo"><y>0</y><x>center</x></action></keybind>
+
+    <keybind key="W-S-KP_4"><action name="MoveResizeTo"><x>0</x><y>center</y></action></keybind>
+    <keybind key="W-S-KP_6"><action name="MoveResizeTo"><x>-0</x><y>center</y></action></keybind>
+
+    <keybind key="W-S-KP_2"><action name="MoveResizeTo"><y>-0</y><x>center</x></action></keybind>
+    
+    <!-- Numpad Resizing -->
+    <keybind key="W-KP_Enter"><action name="ToggleMaximizeVert" /></keybind>
+    <keybind key="W-S-KP_Enter"><action name="ToggleMaximizeHorz" /></keybind>
+    
+    <keybind key="W-KP_Divide"><action name="MoveResizeTo"><width>960</width></action></keybind>
+    <keybind key="W-S-KP_Divide"><action name="MoveResizeTo"><height>600</height></action></keybind>
+
+    <keybind key="W-KP_Add"><action name="ResizeRelative"><top>3</top><right>3</right><bottom>3</bottom><left>3</left></action></keybind>
+    <keybind key="W-KP_Subtract"><action name="ResizeRelative"><top>-3</top><right>-3</right><bottom>-3</bottom><left>-3</left></action></keybind>
+
+    <keybind key="W-C-KP_Add"><action name="ResizeRelative"><right>3</right><left>3</left></action></keybind>
+    <keybind key="W-C-KP_Subtract"><action name="ResizeRelative"><right>-3</right><left>-3</left></action></keybind>
+    
+    <keybind key="W-A-KP_Add"><action name="ResizeRelative"><top>3</top><bottom>3</bottom></action></keybind>
+    <keybind key="W-A-KP_Subtract"><action name="ResizeRelative"><top>-3</top><bottom>-3</bottom></action></keybind>
+ 
+    
+    <!-- Monitor placement -->
+    
+    <keybind key="C-S-A-Left">
+      <action name="MoveResizeTo">
+        <monitor>2</monitor>
+      </action>
+    </keybind>
+    <keybind key="C-S-A-Right">
+      <action name="MoveResizeTo">
+        <monitor>1</monitor>
+      </action>
+    </keybind>
+    
+    <!-- Desktop placement -->
+    
+    <keybind key="W-Right">
+      <action name="DesktopRight">
         <dialog>no</dialog>
         <wrap>no</wrap>
       </action>
     </keybind>
-    <keybind key="W-Right">
-      <action name="DesktopRight">
+    <keybind key="W-Left">
+      <action name="DesktopLeft">
         <dialog>no</dialog>
         <wrap>no</wrap>
       </action>
@@ -188,30 +247,32 @@
         <wrap>no</wrap>
       </action>
     </keybind>
-    <keybind key="W-S-Left">
+    <keybind key="S-W-Left">
       <action name="SendToDesktopLeft">
         <dialog>no</dialog>
         <wrap>no</wrap>
       </action>
     </keybind>
-    <keybind key="W-S-Right">
+    <keybind key="S-W-Right">
       <action name="SendToDesktopRight">
         <dialog>no</dialog>
         <wrap>no</wrap>
       </action>
     </keybind>
-    <keybind key="W-S-Up">
+    <keybind key="S-W-Up">
       <action name="SendToDesktopUp">
         <dialog>no</dialog>
         <wrap>no</wrap>
       </action>
     </keybind>
-    <keybind key="W-S-Down">
+    <keybind key="S-W-Down">
       <action name="SendToDesktopDown">
         <dialog>no</dialog>
         <wrap>no</wrap>
       </action>
     </keybind>
+    <!-- Desktop Selection -->
+    
     <keybind key="W-F1">
       <action name="Desktop">
         <desktop>1</desktop>
@@ -253,112 +314,18 @@
     <keybind key="A-Tab">
       <action name="NextWindow"><raise>yes</raise></action>
     </keybind>
+    <keybind key="W-Tab">
+        <action name="NextWindow">
+            <allDesktops>yes</allDesktops>
+        </action>
+    </keybind>
     <keybind key="A-S-Tab">
       <action name="PreviousWindow"><raise>yes</raise></action>
     </keybind>
-    <keybind key="W-Tab">
-      <action name="NextWindow"><raise>yes</raise><allDesktops>yes</allDesktops></action>
-    </keybind>
     <keybind key="W-S-Tab">
-      <action name="PreviousWindow"><raise>yes</raise><allDesktops>yes</allDesktops></action>
-    </keybind>
-    <keybind key="W-Return">
-      <action name="ToggleMaximizeFull"/>
-    </keybind>
-    <keybind key="W-A-Return">
-      <action name="ToggleMaximizeVert"/>
-    </keybind>
-    <keybind key="W-KP_Add">
-      <action name="ResizeRelative">
-        <right>5</right>
-        <top>5</top>
-        <left>5</left>
-        <bottom>5</bottom>
-      </action>
-    </keybind>
-    <keybind key="W-KP_Subtract">
-      <action name="ResizeRelative">
-        <right>-5</right>
-        <top>-5</top>
-        <left>-5</left>
-        <bottom>-5</bottom>
-      </action>
-    </keybind>
-    <keybind key="W-KP_3">
-      <action name="ResizeRelative">
-        <right>5</right>
-        <bottom>5</bottom>
-      </action>
-    </keybind>
-    <keybind key="W-KP_7">
-      <action name="ResizeRelative">
-        <right>-5</right>
-        <bottom>-5</bottom>
-      </action>
-    </keybind>
-    <keybind key="W-S-KP_7">
-      <action name="MoveRelative">
-        <x>-5</x>
-        <y>-5</y>
-      </action>
-    </keybind>
-    <keybind key="W-KP_6">
-      <action name="MoveResizeTo">
-        <x>--0</x>
-      </action>
-    </keybind>
-    <keybind key="W-S-KP_6">
-      <action name="MoveResizeTo">
-        <x>--0</x>
-        <width>960</width>
-      </action>
-      <action name="MaximizeVert" />
-    </keybind>
-    <keybind key="W-KP_4">
-      <action name="MoveResizeTo">
-        <x>+-0</x>
-      </action>
-    </keybind>
-    <keybind key="W-S-KP_4">
-      <action name="MoveResizeTo">
-        <x>+-0</x>
-        <width>960</width>
-      </action>
-      <action name="MaximizeVert" />
-    </keybind>
-    <keybind key="W-KP_2">
-      <action name="MoveToEdgeNorth"/>
-    </keybind>
-    <keybind key="W-KP_5">
-      <action name="MoveToCenter"/>
-    </keybind>
-    <keybind key="W-KP_8">
-      <action name="MoveToEdgeSouth"/>
-    </keybind>
-    <keybind key="W-KP_4">
-      <action name="MoveToEdgeWest"/>
-    </keybind>
-    <keybind key="W-t">
-      <action name="Execute">
-        <command>x-terminal-emulator</command>
-      </action>
-    </keybind>
-    <keybind key="W-l"><action name="Execute"><command>xscreensaver</command></action></keybind>
-    <keybind key="W-m">
-      <action name="Execute">
-        <command>icedove</command>
-      </action>
-    </keybind>
-    <keybind key="W-b">
-      <action name="Execute">
-        <command>x-www-browser</command>
-      </action>
-    </keybind>
-    <keybind key="W-Insert">
-        <action name="AddDesktopCurrent"/>
-    </keybind>
-    <keybind key="W-Delete">
-        <action name="RemoveDesktopCurrent"/>
+        <action name="PreviousWindow">
+            <allDesktops>yes</allDesktops>
+        </action>
     </keybind>
     <!-- Keybindings for running applications -->
     <keybind key="W-e">
@@ -368,6 +335,31 @@
           <name>PCManFM</name>
         </startupnotify>
         <command>pcmanfm</command>
+      </action>
+    </keybind>
+    <keybind key="W-l">
+      <action name="Execute">
+        <command>xscreensaver-command -lock</command>
+      </action>
+    </keybind>
+    <keybind key="W-b">
+      <action name="Execute">
+        <command>google-chrome</command>
+      </action>
+    </keybind>
+    <keybind key="W-A-b">
+      <action name="Execute">
+        <command>iceweasel</command>
+      </action>
+    </keybind>
+    <keybind key="W-m">
+      <action name="Execute">
+        <command>icedove</command>
+      </action>
+    </keybind>
+    <keybind key="W-t">
+      <action name="Execute">
+        <command>x-terminal-emulator</command>
       </action>
     </keybind>
     <!--keybindings for LXPanel -->
@@ -381,8 +373,28 @@
         <command>lxpanelctl run</command>
       </action>
     </keybind>
+    <keybind key="C-Escape">
+      <action name="Execute">
+        <command>lxpanelctl menu</command>
+      </action>
+    </keybind>
+    <keybind key="Super_R">
+      <action name="Execute">
+        <command>lxpanelctl menu</command>
+      </action>
+    </keybind>
     <keybind key="F11">
       <action name="ToggleFullscreen"/>
+    </keybind>
+    <keybind key="W-s">
+      <action name="Execute">
+        <command>rapidsvn</command>
+      </action>
+    </keybind>
+    <keybind key="W-w">
+        <action name="Execute">
+            <command>virtualbox --startvm "Windows XP" --fullscreen</command>
+        </action>
     </keybind>
     <!-- Launch Task Manager with Ctrl+Alt+Del -->
     <keybind key="A-C-Delete">
@@ -394,7 +406,7 @@
   <mouse>
     <dragThreshold>8</dragThreshold>
     <!-- number of pixels the mouse must move before a drag begins -->
-    <doubleClickTime>500</doubleClickTime>
+    <doubleClickTime>1200</doubleClickTime>
     <!-- in milliseconds (1000 = 1 second) -->
     <screenEdgeWarpTime>400</screenEdgeWarpTime>
     <!-- Time before changing desktops when the pointer touches the edge of the
@@ -422,32 +434,13 @@
       <mousebind button="A-Middle" action="Press">
         <action name="Lower"/>
         <action name="FocusToBottom"/>
-        <action name="Unfocus"/><keybind key="W-KP_Add">
-      <action name="ResizeRelative">
-        <right>5</right>
-        <top>5</top>
-        <left>5</left>
-        <bottom>5</bottom>
-      </action>
-    </keybind>
+        <action name="Unfocus"/>
       </mousebind>
-      <mousebind button="A-Up" action="Click">
-        <action name="DesktopPrevious"/>
+      <mousebind button="W-Up" action="Click">
+        <action name="DesktopPrevious"><wrap>no</wrap></action>
       </mousebind>
-      <mousebind button="A-Down" action="Click">
-        <action name="DesktopNext"/>
-      </mousebind>
-      <mousebind button="C-A-Up" action="Click">
-        <action name="DesktopPrevious"/>
-      </mousebind>
-      <mousebind button="C-A-Down" action="Click">
-        <action name="DesktopNext"/>
-      </mousebind>
-      <mousebind button="A-S-Up" action="Click">
-        <action name="SendToDesktopPrevious"/>
-      </mousebind>
-      <mousebind button="A-S-Down" action="Click">
-        <action name="SendToDesktopNext"/>
+      <mousebind button="W-Down" action="Click">
+        <action name="DesktopNext"><wrap>no</wrap></action>
       </mousebind>
     </context>
     <context name="Titlebar">
@@ -594,7 +587,7 @@
       </mousebind>
     </context>
     <context name="Icon">
-      <mousebind button="Left" action="DoubleClick">
+    <mousebind button="Left" action="DoubleClick">
         <action name="Focus"/>
         <action name="Close"/>
       </mousebind>
@@ -671,23 +664,11 @@
       </mousebind>
     </context>
     <context name="Desktop">
-      <mousebind button="Up" action="Click">
-        <action name="DesktopPrevious"/>
+      <mousebind button="W-Up" action="Click">
+        <action name="DesktopPrevious"><wrap>no</wrap></action>
       </mousebind>
-      <mousebind button="Down" action="Click">
-        <action name="DesktopNext"/>
-      </mousebind>
-      <mousebind button="A-Up" action="Click">
-        <action name="DesktopPrevious"/>
-      </mousebind>
-      <mousebind button="A-Down" action="Click">
-        <action name="DesktopNext"/>
-      </mousebind>
-      <mousebind button="C-A-Up" action="Click">
-        <action name="DesktopPrevious"/>
-      </mousebind>
-      <mousebind button="C-A-Down" action="Click">
-        <action name="DesktopNext"/>
+      <mousebind button="W-Down" action="Click">
+        <action name="DesktopNext"><wrap>no</wrap></action>
       </mousebind>
       <mousebind button="Left" action="Press">
         <action name="Focus"/>
@@ -713,16 +694,16 @@
     </context>
     <context name="MoveResize">
       <mousebind button="Up" action="Click">
-        <action name="DesktopPrevious"/>
+        <action name="DesktopPrevious"><wrap>no</wrap></action>
       </mousebind>
       <mousebind button="Down" action="Click">
-        <action name="DesktopNext"/>
+        <action name="DesktopNext"><wrap>no</wrap></action>
       </mousebind>
-      <mousebind button="A-Up" action="Click">
-        <action name="DesktopPrevious"/>
+      <mousebind button="W-Up" action="Click">
+        <action name="DesktopPrevious"><wrap>no</wrap></action>
       </mousebind>
-      <mousebind button="A-Down" action="Click">
-        <action name="DesktopNext"/>
+      <mousebind button="W-Down" action="Click">
+        <action name="DesktopNext"><wrap>no</wrap></action>
       </mousebind>
     </context>
   </mouse>
