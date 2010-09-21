@@ -6,11 +6,8 @@
 # /usr/local/php/$versionNumber/
 
 # Available binaries are symlinked in /usr/local/bin/
+# Current (running) version is written to /var/run/php-version.current
 
-# This script assumes the debian layout for apache configuration using
-# the a2enmod and a2dismod scripts
-
-# The ./configure is supplied next to this file in the repository
 
 
 function check_prefix {
@@ -30,9 +27,6 @@ function disable {
 			( cd /usr/local/bin && rm -f `basename $i` )
 		fi
 	done
-	if [ -e /etc/apache2/mods-available/php-$1.load ]; then
-		a2dismod php-$1
-	fi
 }
 
 
@@ -45,21 +39,26 @@ function enable {
 				&& ln -s $i );
 		fi
 	done
-	if [ -e /etc/apache2/mods-available/php-$1.load ]; then
-		a2enmod php-$1
-	fi
 }
 
 if [ "" == "$1" ]; then
-	echo "No version specified" >&2
+-	echo "No version specified" >&2
 	exit -1
 fi;
 
-if [ -f /var/run/php-version.current ]; then
-	current=`cat /var/run/php-version.current`
-	disable $current
+if [ -x php ]; then
+	current=`ls -l $(which php) | egrep -o '/[0-9.]+/' | tr -d /`
+elif [ "$FORCE" == "" ]; then
+	echo "php is not available, can not check current version"
+	echo "Set FORCE env to force switch"
+	exit -2;
 fi
-enable $1
-echo $1 > /var/run/php-version.current
 
-/etc/init.d/apache2 restart
+if [ "$current" == "$1" ]; then
+	echo "$current already available"
+	exit 0;
+elif [ "" != "$current" ]; then
+	disable $current;
+fi
+
+enable $1
