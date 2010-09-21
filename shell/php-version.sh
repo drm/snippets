@@ -42,7 +42,7 @@ function enable {
 }
 
 if [ "" == "$1" ]; then
--	echo "No version specified" >&2
+	echo "No version specified" >&2
 	exit -1
 fi;
 
