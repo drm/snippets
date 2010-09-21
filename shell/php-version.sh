@@ -46,7 +46,7 @@ if [ "" == "$1" ]; then
 	exit -1
 fi;
 
-if [ -x php ]; then
+if [ "`which php`" != "" -a -x "`which php`" ]; then
 	current=`ls -l $(which php) | egrep -o '/[0-9.]+/' | tr -d /`
 elif [ "$FORCE" == "" ]; then
 	echo "php is not available, can not check current version"
