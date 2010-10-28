@@ -42,15 +42,15 @@ function enable {
 }
 
 if [ "" == "$1" ]; then
-	echo "No version specified" >&2
+	echo "Usage: $0 {version [--force]|--off}" >&2
 	exit -1
 fi;
 
 if [ "`which php`" != "" -a -x "`which php`" ]; then
 	current=`ls -l $(which php) | egrep -o '/[0-9.]+/' | tr -d /`
-elif [ "$FORCE" == "" ]; then
+elif [ "$2" != "--force" ]; then
 	echo "php is not available, can not check current version"
-	echo "Set FORCE env to force switch"
+	echo "Use --force option to force switch"
 	exit -2;
 fi
 
@@ -61,4 +61,6 @@ elif [ "" != "$current" ]; then
 	disable $current;
 fi
 
-enable $1
+if [ "$1" != "--off" ]; then
+	enable $1
+fi;
