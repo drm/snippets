@@ -7,6 +7,7 @@
 
 [ "$PHP_PREFIX" == "" ] && PHP_PREFIX="/usr/local/php"
 [ "$BIN_PREFIX" == "" ] && BIN_PREFIX="/usr/local/bin"
+[ "$SBIN_PREFIX" == "" ] && SBIN_PREFIX="/usr/local/sbin"
 
 function check_prefix {
 	prefix=$1
@@ -16,27 +17,42 @@ function check_prefix {
 	fi
 }
 
+function rm_links {
+	src=$1
+	target=$2
+	for i in $src/*; do
+		if [ -h "$target/`basename $i`" ]; then
+			( cd $target && rm $VERBOSE -f `basename $i` )
+		fi
+	done
+}
+
+
+function mk_links {
+	src=$1
+	target=$2
+	for i in $src/*; do
+		if [ ! -h $i ]; then
+			( cd $target && ln $VERBOSE -s $i );
+		fi
+	done
+}
+
+
 
 function disable {
 	prefix="$PHP_PREFIX/$1"
 	check_prefix $prefix
-	for i in $prefix/bin/*; do
-		if [ -h "$BIN_PREFIX/`basename $i`" ]; then
-			( cd $BIN_PREFIX && rm -f `basename $i` )
-		fi
-	done
+	rm_links $prefix/bin $BIN_PREFIX
+	rm_links $prefix/sbin $SBIN_PREFIX
 }
 
 
 function enable {
 	prefix="$PHP_PREFIX/$1"
 	check_prefix $prefix
-	for i in $prefix/bin/*; do
-		if [ ! -h $i ]; then
-			( cd $BIN_PREFIX \
-				&& ln -s $i );
-		fi
-	done
+	mk_links $prefix/bin $BIN_PREFIX
+	mk_links $prefix/sbin $SBIN_PREFIX
 }
 
 if [ "`which php`" != "" -a -x "`which php`" ]; then
